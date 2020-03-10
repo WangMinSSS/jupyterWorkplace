@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <meta charset="utf-8"> 
+        <title>Don't shivering ^_^</title> 
+        <script src="https://unpkg.com/mathjs@6.6.1/dist/math.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            var pointX = [];
+            var pointY = [];
+            
+            window.onload=function (){
+                
+                myCanvas.width = document.documentElement.clientWidth*0.6;
+                myCanvas.height = document.documentElement.clientHeight*0.9;
+                
+                var canvas = document.getElementById('myCanvas');
+                var context = canvas.getContext('2d');
+                
+                context.lineWidth = 1;    
+                context.strokeStyle = '#000000';    
+                canvas.addEventListener('touchstart',touchstart);    
+                function touchstart(e){
+                    canvas.height = canvas.height;
+                    pointX = [];
+                    pointY = [];
+                    e.preventDefault();        
+                    var touches = e.changedTouches;        
+                    var x = touches[0].clientX - canvas.offsetLeft;        
+                    var y = touches[0].clientY - canvas.offsetTop;       
+                    context.moveTo(x,y);
+                    
+                    pointX.push(x);
+                    pointY.push(y);
+                }    
+                canvas.addEventListener('touchmove',touchmove);    
+                function touchmove(e){        
+                    e.preventDefault();        
+                    var touches = e.changedTouches;        
+                    var x = touches[0].clientX - canvas.offsetLeft;        
+                    var y = touches[0].clientY - canvas.offsetTop;        
+                    context.lineTo(x,y);        
+                    context.stroke();    
+                    
+                    pointX.push(x);
+                    pointY.push(y);
+                }
+            alert('hello');
+            }
+        
+            function submit(){
+                a = (pointY[pointY.length-1]-pointY[0])/(pointX[pointX.length-1]-pointX[0]);
+                var s = 0;
+                for(var i=0;i<pointX.length;i++){
+                    s = s+(a*(pointX[i]-pointX[0])+pointY[0]-pointY[i])**2;
+                }
+                alert(s/pointX.length);
+            }
+        </script>
+
+    </head>
+    <body>
+        <canvas id="myCanvas" width="1200" height="1800" style="border:1px solid #000000;">
+        您的浏览器不支持 HTML5 canvas 标签。
+        </canvas>
+        <button onclick="submit()">提交</button>
+    </body>
+</html>
